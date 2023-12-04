@@ -122,7 +122,29 @@ public class QueryBuilder {
      * @return
      */
     public String buildDeleteQuery(Class<?> clazz, UUID primaryKey){
-        return null;
+        StringBuilder query = new StringBuilder("DROP TABLE ");
+
+        if (clazz.isAnnotationPresent(Table.class)) {
+            Table tableAnnotation = clazz.getAnnotation(Table.class);
+            query.append(tableAnnotation.name());
+        }
+
+
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(Column.class)) {
+                Column columnAnnotation = field.getAnnotation(Column.class);
+                if (columnAnnotation.primaryKey()) {
+                    if( columnAnnotation.name().equals(primaryKey))
+                    continue;
+                    else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return query.toString();
     }
 
 }
