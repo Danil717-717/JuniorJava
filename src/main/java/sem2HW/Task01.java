@@ -67,16 +67,8 @@ public class Task01 {
 
     public static void methodСall(Object o) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Method method = o.getClass().getMethod("say");
-        System.out.println("Метод say() на обьекте: " + o.getClass() + "-" + method.invoke(o));
+        System.out.println("Метод say() на обьекте: " + o.getClass());
+        method.invoke(o);
     }
-
-    /*
-        Подскажите пожалуйста, при вызове метода say() такой вывод в консоль
-        Myau
-        Метод say() на обьекте: class sem2HW.Cat-null <- этот
-
-        Что это за null в конце появился? и как его убрать?)
-     */
-
 
 }
