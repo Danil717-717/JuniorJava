@@ -1,0 +1,16 @@
+[ {
+  "title" : "Сходить в магазин за продуктами",
+  "done" : false
+}, {
+  "title" : "Погулять с собакой",
+  "done" : false
+}, {
+  "title" : "Заменить лампочку",
+  "done" : true
+}, {
+  "title" : "купить автомобиль",
+  "done" : false
+}, {
+  "title" : "Выучить Spring",
+  "done" : false
+} ]
