@@ -1,0 +1,178 @@
+  Урок 4. Базы данных и инструменты взаимодействия с ними
+
+  План урока:
+  - Введение в JDBC
+  - Установка и подключение к базе данных MySQL
+  - Основы SQL: DDL, DML и DQL
+  - Выполнение SQL запросов с помощью JDBC
+  - Работа с ResultSet
+  - Предотвращение SQL Injection: PreparedStatement и CallableStatement
+  - Управление транзакциями в JDBC
+  - Оптимизация работы с базой данных
+  - Использование пулов соединений
+  - Лучшие практики при работе с JDBC
+
+
+
+  JDBC (Java Database Connectivity) - это программный интерфейс,
+  предоставляющий набор классов и методов для взаимодействия с
+  базами данных из языка программирования Java. JDBC обеспечивает
+  стандартный способ подключения к различным системам управления
+  базами данных (СУБД), выполнение SQL-запросов, получение и
+  обновление данных в базе. Он предоставляет абстракцию,
+  позволяющую разработчикам писать приложения, которые могут
+  взаимодействовать с базами данных, независимо от конкретной
+  используемой СУБД. JDBC используется для создания портативных
+  и эффектных приложений, работающих с данными в базах данных.
+
+
+  установка MySQL и поиск драйвера JDBC
+  1. Переход на сайт www.mysql.com . Downloads.
+    "MySQL Community (GPL) Downloads" переходим
+  2. Загрузим  MySQL
+  3. Установим по инструкциям установщика
+  4. Найдем драйвера JDBC. В поисковике вводим
+     "mysql driver java maven". Находим необходимый
+     драйвер, выбираем версию и копируем в проект
+
+
+  Так же можно через Docker
+
+  docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=admin -p 3306:3306 -d mysql:8.0
+
+  добавляем зависимость
+  <dependency>
+        <groupId>com.mysql</groupId>
+        <artifactId>mysql-connector-j</artifactId>
+        <version>8.1.0</version>
+  </dependency>
+
+  В классе Db создаем константы:
+    private static final String URL = "jdbc:mysql://localhost:3306";
+  подключение к нашей базе - jdbc:mysql будем использовать этот драйвер
+  localhost - тк база установлена локально на нашем ПК и
+  :3306 - это стандартный порт для подключения к MySql
+    private static final String USER = "root";
+  при создании мы указали root
+      private static final String PASSWORD = "admin";
+  пароль
+
+
+В идее откроем датабазу прописать User и PASS
+testConection сделать, если все ок то нажимаем ОК
+
+
+
+  ORM расшифровывается как Object-Relational Mapping
+(Отображение обьектов на отношения). Это программная
+технология, которая связывает базы данных с системами,
+основанными на обьектно-ориентированном програм-нии,
+путем создания виртуальной обьектной базы данных.
+Она позволяет работать с данными в виде обьектов
+в программном коде, а не в виде SQL-запросов к базе
+данных.
+
+    Основная идея ORM заключается в том, чтобы
+устранить несоответствие между обьектами в приложении
+и таблицами в базе данных, предоставляя механизмы
+автоматического преобразования данных между ними.
+ORM-фреймворки, такие как Hibernate, предоставляют
+абстракцию над базой данных, упрощая и ускоряя
+разработку приложений.
+
+    (библиотека) Hibernate - это фреймворк для
+языка Java, предназначенный для упрощения
+взаимодействия с реляционными базами данных.
+Он является одной из самых популярных реализаций
+технологий ORM( Object-Relational Mapping) в Java.
+
+
+        дОБАВЛЕНИЕ ДАННЫХ ЧЕРЕЗ  консоль
+
+    CREATE TABLE `test`.`magic` (
+                `id` INT NOT NULL AUTO_INCREMENT,
+                `название` VARCHAR(45) NULL,
+                `повреждение` INT NULL,
+                `атака` INT NULL,
+                `броня` INT NULL,
+                PRIMARY KEY (`id`));
+
+
+        Добавление зависимости Hibernate
+    <dependency>
+           <groupId>org.hibernate</groupId>
+           <artifactId>hibernate-java8</artifactId>
+           <version>6.0.0.Alpha7</version>
+           <type>pom</type>
+    </dependency>
+
+    Хорошая практика выносить во внешний конфигурационный
+ файл настройки
+
+    Конфигурационный файл должен лежать в директории resources
+
+    Название конфигурационного файла hibernate.cfg.xml
+
+    <?xml version='1.0' encoding='utf-8'?>
+    <!DOCTYPE hibernate-configuration PUBLIC
+            "-//Hibernate/Hibernate Configuration DTD//EN"
+            "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+    <hibernate-configuration>
+        <session-factory>
+            <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+            // указываем драйвер
+            <property name="connection.url">jdbc:mysql://localhost:3306</property>  - localhost
+            <property name="connection.username">root</property>
+            <property name="connection.password">admin</property>
+            <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+            //диалект в нашем случае MySQL
+            <property name="show_sql">true</property>
+            //указываем флаг true для отображения перед выполнением
+            <mapping class="less4.Magic" />
+            // указываем мапинг класс
+
+        </session-factory>
+    </hibernate-configuration>
+
+    mapping class должен содержать анотации
+    @Entity - сущность, говорит о том что мы описываем
+        обьект сущность, те обьект который основан на
+        этом классе, будет использоваться hibernate
+        при взаимодействии с базами данных.
+        Эти классы должны иметь приватные поля и
+        геттер сеттеры и пустой конструктор и для
+        удобства переопределен toString
+    @Table(name="test.magic") - таблица и название
+        этой анотацией мы привязываем класс с таблицей
+
+ @Entity
+ @Table(name="test.magic")
+ public class Magic {
+ }
+
+            @Id - аннотация говорит что данное поле
+                  является модификатором
+            @GeneratedValue(strategy = GenerationType.IDENTITY) -
+                  эта аннотация предает управление hibernate
+                  отвечающее за генерацию обязательного поля
+                  PRIMARY KEY
+            private int id;
+            @Column(name = "название") - указывает что это колонка
+                  и задает название, которое будет привязываться
+                  к таблице
+            private  String name;
+            @Column(name = "повреждение")
+            private int damage;
+            @Column(name = "атака")
+            private int attBonus;
+
+
+ через консоль ДБ можно удалить таблицу и сбросить счетчик инкремента
+
+ delete from test.magic; alter table magic auto_increment=1;
+
+ при чтении из БД транзакции не требуется
+
+ в метод .createQuery() передаем наш запрос
+ getResult выводит данные
+
