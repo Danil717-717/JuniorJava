@@ -2,8 +2,7 @@ package sem4.homework.models;
 
 
 
-import less4.Connector;
-import less4.Magic;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -26,15 +25,10 @@ public class CoursesDB {
         try (Connection connection = DriverManager.getConnection(url, user, password)) {
 
             Statement statement =connection.createStatement();
-            //statement.execute("CREATE SCHEMA `schoolDB`");
+            statement.execute("CREATE SCHEMA `schoolDB`");
             statement.execute("CREATE TABLE `schoolDB`.`courses`(`id` INT NOT NULL AUTO_INCREMENT ,`title` VARCHAR(50) NULL, `duration` INT NULL,PRIMARY KEY(`id`));");
-//            statement.execute("INSERT INTO  `schoolDB`.`courses` (`id`,`title`,`duration`)\n" +
-//                    "VALUES (1, 'Алгебра',10);");
-//            statement.execute("INSERT INTO  `schoolDB`.`courses` (`id`,`title`,`duration`)\n" +
-//                    "VALUES (2, 'Физика',8);");
-//            statement.execute("INSERT INTO  `schoolDB`.`courses` (`id`,`title`,`duration`)\n" +
-//                    "VALUES (3, 'Математика',12);");
-//
+
+
 
 
         } catch (SQLException e) {
@@ -91,7 +85,7 @@ public class CoursesDB {
     }
 
     public static void deleteOb(){
-        Connector connector = new Connector();
+        ConnectorHW connectorHW = new ConnectorHW();
         try (Session session = connector.getSession()){
             Transaction t = session.beginTransaction();
             List<Courses> courses = session.createQuery("FROM Courses ", Courses.class).getResultList();
