@@ -42,7 +42,7 @@ public class Db {
 
 
     public static void workBilder() {
-        // эта переменная класса, который содержит в мебе
+        // эта переменная класса, который содержит в себе
         // механизмы для связи с сервером баз данных и
         // менеджером передачи запросов, именно этому классу
         // нужен конфиг файл .xml
@@ -107,7 +107,7 @@ public class Db {
     public static void changingObjects(){
         Connector connector = new Connector();
         try (Session session = connector.getSession()){
-            //строка хранит запрос на языке hql
+           //строка хранит запрос на языке hql
             String hql = "from Magic where id = :id";
             Query<Magic> query = session.createQuery(hql, Magic.class);
             query.setParameter("id",4);

@@ -39,6 +39,8 @@
   Так же можно через Docker
 
   docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=admin -p 3306:3306 -d mysql:8.0
+  docker run --name schoolDB -e MYSQL_ROOT_PASSWORD=admin -p 3306:3306 -d mysql:8.0
+
 
   добавляем зависимость
   <dependency>

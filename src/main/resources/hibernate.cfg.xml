@@ -4,13 +4,75 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
+
+        <!-- less 4
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="connection.url">jdbc:mysql://localhost:3306</property>
         <property name="connection.username">root</property>
         <property name="connection.password">admin</property>
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="show_sql">true</property>
-        <mapping class="less4.Magic" />
+        <mapping class="less4.Magic"/>-->
+
+
+        <!-- JDBC Database connection settings sem4
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/studentsDB</property>
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">password</property>-->
+
+
+        <!-- JDBC connection pool settings
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+        <property name="hibernate.c3p0.timeout">300</property>
+        <property name="hibernate.c3p0.max_statements">50</property>
+        <property name="hibernate.c3p0.idle_test_period">3000</property>-->
+
+        <!-- Specify dialect
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>-->
+
+        <!-- Echo all executed SQL to stdout
+        <property name="hibernate.show_sql">true</property> -->
+
+        <!-- Context configuration
+        <property name="hibernate.current_session_context_class">thread</property>-->
+
+        <!-- Drop and re-create the database schema on startup
+        <property name="hibernate.hbm2ddl.auto">update</property> -->
+
+        <!-- Mention annotated entity class sem4
+        <mapping class="sem4.models.Student"/>-->
+
+        <!-- sem4HW -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">admin</property>
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="show_sql">true</property>
+
+
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+        <property name="hibernate.c3p0.timeout">300</property>
+        <property name="hibernate.c3p0.max_statements">50</property>
+        <property name="hibernate.c3p0.idle_test_period">3000</property>
+
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+
+        <property name="hibernate.show_sql">true</property>
+
+
+        <property name="hibernate.current_session_context_class">thread</property>
+
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <mapping class="sem4.homework.models.Courses"/>
+
 
     </session-factory>
 </hibernate-configuration>
